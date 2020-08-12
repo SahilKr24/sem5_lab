@@ -1,35 +1,81 @@
-#include<stdlib.h>
 #include<stdio.h>
-#include<math.h>
+#include<stdlib.h>
 
-void insertionSort(int *p, int n) 
-{ 
-    int i, key, j; 
-    for (i = 1; i < n; i++) { 
-        key = *(p+i); 
-        j = i - 1; 
-        while (j >= 0 && *(p+j) > key) { 
-            *(p+j+1) = *(p+j); 
-            j = j - 1; 
-        } 
-        *(p+j+1) = key; 
-    } 
+int randInt(){
+    __time_t t;
+    srand((unsigned) t*rand());
+    return rand()%50;
 }
 
-void main(){
-    int n,i;
-	printf("Enter Number of Elements : ");
-	scanf("%d",&n);
-	int *p = (int *)calloc(n,sizeof(int));
+void merge(int arr[], int l, int m, int r) 
+{ 
+    int i, j, k; 
+    const int n1 = m - l + 1; 
+    const int n2 = r - m; 
+  
+    int L[n1], R[n2]; 
+  
+    for (i = 0; i < n1; ++i) 
+        L[i] = arr[l + i]; 
+    for (j = 0; j < n2; ++j) 
+        R[j] = arr[m + 1 + j]; 
+  
+    i = 0; 
+    j = 0; 
+    k = l; 
+    while (i < n1 && j < n2) { 
+        if (L[i] <= R[j]) { 
+            arr[k++] = L[i++]; 
+        } 
+        else { 
+            arr[k++] = R[j++]; 
+        } 
+    } 
+    while (i < n1) { 
+        arr[k++] = L[i++]; 
+    } 
 
-    for(i=0;i<n;i++){
-        *(p+i) = rand() % 100;
-	}
-    printf("Your Array: ");
-	for(i=0;i<n;i++){
-        printf("%d ",*(p+i));  
-	}
-    insertionSort(p, n);
-    printf("\nSecond Largest: %d\n", *(p+n-2));
-    printf("Second Smallest: %d\n", *(p+1));
+    while (j < n2) { 
+        arr[k++] = R[j++]; ; 
+    } 
+} 
+ 
+void mergeSort(int arr[],int l,int r){
+    {
+        if(l<r){
+            int m = l + (r - l) / 2; 
+            mergeSort(arr,l,m);
+            mergeSort(arr,m+1,r);
+            merge(arr,l,m,r);
+        }
+    }
+}
+void main(){
+
+    printf("Enter length of array\n");
+    int input = 7;
+    scanf("%d",&input);
+    const int n = input;
+    int arr[n];
+    printf("Populating array\n");
+    for (int i = 0; i < n; i++)
+    {
+        arr[i] = randInt();
+    }
+    printf("\n");
+    for(int i =0 ; i<n ; ++i){
+        printf("%d ",arr[i]);
+    }
+    printf("\n");
+
+    mergeSort(arr,0,n-1);
+    printf("\nSorted\n");
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d ",arr[i]);
+    }
+    printf("\n");
+    
+    printf("Second smallest element is %d\n",arr[1]);
+    printf("Second largest element is %d\n",arr[n-2]);
 }

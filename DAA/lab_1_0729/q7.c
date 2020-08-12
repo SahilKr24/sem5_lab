@@ -1,43 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
 
-#include<stdlib.h>
-#include<stdio.h>
-#include<math.h>
-
-void swap(int *x, int *y){
-    int temp = *x;
-    *x = *y;
-    *y = temp;
+int randInt(){
+    __time_t t;
+    srand((unsigned) t*rand());
+    return rand()%50;
 }
 
-void rearrange(int *p, int n){
-    int temp;
-    if(n%2!=0)
-        temp = *(p+n-1);
-    for(int i=0;i<n;i+=2){
-        swap((p+i), (p+i+1));
+
+void printArray(int n,int arr[n]){
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d ",arr[i]);
     }
-    *(p+n-1) = temp;
+    
 }
 
-void main(){
-    int n,i;
-	printf("Enter Number of Elements : ");
-	scanf("%d",&n);
-	int *p = (int *)calloc(n,sizeof(int));
+void swap(int *a,int *b){
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
 
-    for(i=0;i<n;i++){
-        *(p+i) = rand() % 100;
-	}
-    printf("Before Rearranging: ");
-	for(i=0;i<n;i++){
-        printf("%d ",*(p+i));  
-	}
-
-    rearrange(p, n);
-
-    printf("\nAfter Rearranging: ");
-	for(i=0;i<n;i++){
-        printf("%d ",*(p+i));  
-	}
-    printf("\n");
+void swapNumbers(int arr[], int l, int r)
+{
+    if (l < r)
+    {
+        swap(&arr[l], &arr[r]);
+        swapNumbers(arr, l + 1, r - 1);
+    }
+}
+void main()
+{
+    printf("Enter length of array\n");
+    int input = 7;
+    scanf("%d", &input);
+    const int n = input;
+    int arr[n];
+    printf("Populating array\n");
+    for (int i = 0; i < n; i++)
+    {
+        arr[i] = randInt();
+    }
+    printf("Entered array is \n");
+    printArray(n, arr);
+    if (!(n & 1))
+    {
+        swapNumbers(arr, 0, n - 1);
+    }
+    else
+    {
+        swapNumbers(arr, 0, n - 2);
+    }
+    printf("\nAfter swapping\n");
+    printArray(n, arr);
 }

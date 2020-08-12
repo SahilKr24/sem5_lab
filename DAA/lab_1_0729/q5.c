@@ -1,68 +1,83 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<math.h>
 
-int nonZero(int *p, int c, int r){
-    int count = 0;
-    for(int i=0;i<r;i++)
-        for(int j=0;j<c;j++)
-            if(*(p + i*c + j) != 0)
-                count++;
-    return count;
+void countZeros(int n,int arr[][n]){
+    int zeros = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if(arr[i][j] == 0){
+                ++zeros;
+            }
+        }
+
+    }
+
+    printf("Number of zeros = %d\n",zeros);
+    
 }
 
-int sumDiag(int *p, int c, int r){
+void sumLeading(int n,int arr[][n]){
     int sum = 0;
-    for(int i=0;i<r;i++)
-        for(int j=0;j<c;j++)
-            if(i < j)
-                sum+=*(p + i*c + j);
-    return sum;
+    for(int i = 0;i<n;++i){
+        for(int j=i+1;j<n;++j){
+            sum+=arr[i][j];
+        }
+    }
+
+    printf("Sum of elements above leading diagonal = %d\n",sum);
 }
 
-int prodDiag(int *p, int c, int r){
-    int prod = 1;
-    for(int i=0;i<r;i++)
-        for(int j=0;j<c;j++)
-            if(i==j)
-                prod *= *(p + i*c + j);
-    return prod;
-}
-
-void belowMinorDiag(int *p, int c, int r){
-    printf("Elements below minor diag: \n");
-    for(int i=0;i<r;i++){
-        for(int j=0;j<c;j++){
-            if ((i+j)>=c)
-                printf("%d  ", *(p + i*c + j));
-            else
-                printf("**  ");
+void showBelowMinorDiagonal(int n,int arr[][n]){
+    printf("Elements below minor diagonal are \n");
+    for(int i=1;i<n;++i){
+        for(int j=0;j<i;++j){
+            printf("%d ",arr[i][j]);
         }
         printf("\n");
     }
 }
 
-void main() {
-    int dim,c,r;
-    printf("Enter size of sq. matrix: ");
-    scanf("%d", &dim);
-    c=r=dim;
-    int *p = (int *)malloc(c*r*sizeof(int));
-    for(int i=0;i<r;i++){
-        for(int j=0;j<c;j++){
-            *(p + i*c + j) = rand()%100;
-        }
+void diagonalProduct(int n,int arr[][n]){
+    int product = 1;
+    for (int i = 0; i < n; i++)
+    {
+        product*=arr[i][i];
     }
-    printf("Your Matrix: \n");
-    for(int i=0;i<r;i++){
-        for(int j=0;j<c;j++){
-            printf("%d  ", *(p + i*c + j));
+
+    printf("Product of diagonal elements = %d\n",product);
+    
+}
+
+int main(){
+    printf("Enter order of the array\n");
+    int input;
+    scanf("%d",&input);
+    const int n = input;
+    int arr[n][n];
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+           printf("Enter arr[%d][%d]\n",i,j);
+           scanf("%d",&arr[i][j]);
+        }
+        
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+           printf("%d ",arr[i][j]);
         }
         printf("\n");
     }
 
-    printf("\nNon Zero Elements: %d\n\n", nonZero(p, c, r));
-    printf("Sum of Elements above Leading Diagonal: %d\n\n", sumDiag(p, c, r));
-    belowMinorDiag(p, c, r);
-    printf("\nProduct of Diagonal Elements: %d\n", prodDiag(p, c, r));
+    countZeros(n,arr);
+    sumLeading(n,arr);
+    showBelowMinorDiagonal(n,arr);
+    diagonalProduct(n,arr);
+    
 }
