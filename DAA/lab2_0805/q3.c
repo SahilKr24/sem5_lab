@@ -121,10 +121,20 @@ void main()
         case 3:{
             count = insertionSort(arr,n);
             printf("Array of length %d sorted in %ld steps \n",n,count);
+            printf("Array after sorting is \n");
+            for(int i=0;i<n;++i){
+                printf("%d ",arr[i]);
+            }
+            printf("\n");
             break;
         }
         case 4:{
             insertionSortDescending(arr,n);
+            printf("Array after sorting is \n");
+            for(int i=0;i<n;++i){
+                printf("%d ",arr[i]);
+            }
+            printf("\n");
             break;
         }
         case 5:{
