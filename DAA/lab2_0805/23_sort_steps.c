@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 int randInt()
 {
@@ -9,47 +8,50 @@ int randInt()
     return rand() % 50;
 }
 
-void insertionSort(int arr[], int n,int p)
+long insertionSort(int arr[], int n)
 {
-    for (int j = 1; j < n; ++j)
+    long count = 1;
+    for (int j = 1; j < n; ++j, count++)
     {
+        count++; //number of times temp is assigned
         int temp = arr[j];
+        count++; //number of times i is assigned
         int i = j - 1;
+        count++; //number of times while loop is initialized
         while (arr[i] > temp && i >= 0)
         {
+            count++; //number of shift operations
             arr[i + 1] = arr[i];
+            count++; //number of i decrements
             i--;
         }
+        count++; // number of times temp is assigned to it's position
         arr[i + 1] = temp;
     }
-    if(p==1){
-       for(int i=0;i<n;++i){
-                printf("%d ",arr[i]);
-            } 
-        printf("\n");
-    }
+    return count;
 }
 
-void insertionSortDescending(int arr[], int n,int p)
+long insertionSortDescending(int arr[], int n)
 {
-    for (int j = 1; j < n; ++j)
+    long count = 1;
+    for (int j = 1; j < n; ++j, count++)
     {
-        
+        count++; //number of times temp is assigned
         int temp = arr[j];
+        count++; //number of times i is assigned
         int i = j - 1;
+        count++; //number of times while loop is initialized
         while (arr[i] < temp && i >= 0)
         {
+            count++; //number of shift operations
             arr[i + 1] = arr[i];
+            count++; //number of i decrements
             i--;
         }
+        count++; // number of times temp is assigned to it's position
         arr[i + 1] = temp;
     }
-    if(p==1){
-       for(int i=0;i<n;++i){
-                printf("%d ",arr[i]);
-            } 
-            printf("\n");
-    }
+    return count;
 }
 
 void analyze(int n){
@@ -60,29 +62,14 @@ void analyze(int n){
         arr2[i] = num;
         arr3[i] = num;
     }
-    clock_t t;
-    double time_taken; 
-    insertionSort(arr1,n,0); //sort data in ascending order
-    insertionSortDescending(arr2,n,0); //sort data in descending order
+    insertionSort(arr1,n); //sort data in ascending order
+    insertionSortDescending(arr2,n); //sort data in descending order
+    
+    long count1 = insertionSort(arr1,n); //count steps for sorting already ascending sorted data;
+    long count2 = insertionSort(arr2,n); //count steps for sorting descending sorted data;
+    long count3 = insertionSort(arr3,n); //count steps for sorting random data
 
-    t = clock();
-    insertionSort(arr1,n,0); //count seconds for sorting already ascending sorted data;
-    t = clock() - t;
-    time_taken = ((double)t)/CLOCKS_PER_SEC;
-    double count1 = time_taken;
-
-    t = clock();
-    insertionSort(arr2,n,0); //count seconds for sorting descending sorted data;
-    t = clock() - t;
-    time_taken = ((double)t)/CLOCKS_PER_SEC;
-    double count2 = time_taken;
-
-    t = clock();
-    insertionSort(arr3,n,0); //count seconds for sorting random data
-    t = clock() - t;
-    time_taken = ((double)t)/CLOCKS_PER_SEC;
-    double count3 = time_taken;
-    printf("%5d\t%5d\t%10f\t%10f\t%10f",n/5000,n,count1,count2,count3);
+    printf("%5d\t%5d\t%10ld\t%10ld\t%10ld",n/5000,n,count1,count2,count3);
 }
 
 
@@ -91,9 +78,7 @@ void main()
     int *arr;
     int n;
     int ch = 0;
-    double count = 0;
-    clock_t t;
-    double time_taken; 
+    long count = 0;
 
     do
     {
@@ -107,7 +92,7 @@ void main()
             5. Time Complexity to sort ascending of random data\n\
             6. Time Complexity to sort ascending of data already sorted in ascending order\n\
             7. Time Complexity to sort ascending of data already sorted in descending order\n\
-            8. Time Complexity to sort ascending of data for all Cases\n\t\t(Data Ascending, Data Descending & Random Data) in a table for values n=5000 to 50000,step=5000\n");
+            8. Time Complexity to sort ascending of data for all Cases (Data Ascending, Data in Descending & Random Data) in Tabular form for values n=5000 to 50000, step=5000\n");
         scanf("%d", &ch);
         switch (ch)
         {
@@ -134,50 +119,46 @@ void main()
             break;
         }
         case 3:{
-            insertionSort(arr,n,1);
+            count = insertionSort(arr,n);
+            printf("Array of length %d sorted in %ld steps \n",n,count);
+            printf("Array after sorting is \n");
+            for(int i=0;i<n;++i){
+                printf("%d ",arr[i]);
+            }
+            printf("\n");
             break;
         }
         case 4:{
-            insertionSortDescending(arr,n,1);
+            insertionSortDescending(arr,n);
+            printf("Array after sorting is \n");
+            for(int i=0;i<n;++i){
+                printf("%d ",arr[i]);
+            }
+            printf("\n");
             break;
         }
         case 5:{
-            t = clock();
-            insertionSort(arr,n,0);
-            t = clock() - t;
-            time_taken = ((double)t)/CLOCKS_PER_SEC;
-            double count = time_taken;
-            printf("Array of length %d sorted in %f seconds \n",n,count);
+            count = insertionSort(arr,n);
+            printf("Array of length %d sorted in %ld steps \n",n,count);
             break;
         }
         case 6:{
-            t = clock();
-            insertionSort(arr,n,0);
-            insertionSort(arr,n,0);
-            t = clock() - t;
-            time_taken = ((double)t)/CLOCKS_PER_SEC;
-            double count = time_taken;
-            printf("An already sorted array was sorted in %f seconds\n",count);
+            insertionSort(arr,n);
+            count = insertionSort(arr,n);
+            printf("An already sorted array was sorted in %ld steps\n",count);
             break;
         }
         case 7:{
-            t = clock();
-            insertionSortDescending(arr,n,0);
-            insertionSort(arr,n,0);
-            t = clock() - t;
-            time_taken = ((double)t)/CLOCKS_PER_SEC;
-            double count = time_taken;
-            printf("An array sorted in descending order was sorted in %f seconds\n",count);
-            break;
+            insertionSortDescending(arr,n);
+            count = insertionSort(arr,n);
+            printf("An array sorted in descending order was sorted in %ld steps\n",count);
         }
         case 8:{
-            freopen("myfile.txt", "w", stdout);
             printf("S.No\tVal N\tData in Asc\tData in Desc\tRandom Data\n");
             for(int i=5000;i<=50000;i+=5000){
                 analyze(i);
                 printf("\n");
             }
-            fclose (stdout);
             break;
         }
         }

@@ -1,4 +1,4 @@
-S.No	Val N	Data in Asc	Data in Desc	Random Data
+S.No	Val N	 Best Case	 Worst Case	 Random Data
     1	 5000	  0.000015	  0.032811	  0.016012
     2	10000	  0.000031	  0.129267	  0.064571
     3	15000	  0.000046	  0.289408	  0.143626
