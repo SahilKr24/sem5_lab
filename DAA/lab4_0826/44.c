@@ -33,12 +33,12 @@ unsigned long long int naive_Power(int a,int n){
 }
 
 int main(){
-    int a = 2;
-    int b = 30;
-
+    int a = 4;
+    int b = 12;
     unsigned long long int pow1 = divide_and_conquer_Power(a,b);
     unsigned long long int pow2 = naive_Power(a,b);
-
-    printf("%lli %lli\n",pow1,pow2);
-    printf("%d %d\n",count_divide_and_conquer,count_naive);
+    printf("Soln by Divide and conquer :\n");
+    printf("Ans: %lli\nNo. of Multiplications: %d\n",pow1,count_divide_and_conquer);
+    printf("Soln by Brute Force :\n");
+    printf("Ans: %lli\nNo. of Multiplications: %d\n",pow2,count_naive);
 }

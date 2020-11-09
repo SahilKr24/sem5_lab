@@ -17,11 +17,13 @@ int findMax(int arr[], int n)
 
 int main()
 {
-    int A[] = {1, 3, 7, -2, -1, -5, -1, -2, -4, 6, 2};
+    int A[] = {1, 5, 7, -6, 1, -5, -9, -2, -4, 6, 2};
     int max = 0;
     int n = sizeof(A) / sizeof(int);
 
     max = findMax(A, n);
-
+    for(int i=0;i<n;i++)
+        printf("%d ",A[i]);
+    printf("\n");
     printf("Max subarray is %d\n", max);
 }

@@ -8,76 +8,113 @@ int randInt()
     srand((unsigned)t * rand());
     return rand() % 5000;
 }
-int merge(int arr[],int l,int m,int r,int arr2[]){
-    int mid = m;
 
-    int n1 = mid - l + 1;
-    int n2 = r - mid;
+void rvereseArray(int arr[], int start, int end)
+{
+    while (start < end)
+    {
+        int temp = arr[start]; 
+        arr[start] = arr[end];
+        arr[end] = temp;
+        start++;
+        end--;
+    } 
+}  
 
-    int L[n1],R[n2];
-
-    for(int i=0;i<n1;i++){
-        L[i] = arr[l+i];
-    }
-    for(int j=0;j<n2;j++){
-        R[j] = arr[mid + 1 + j ]; 
-    }
-
-    int i=0;
-    int j=0;
-    int k = l;
-    while(i < n1 && j < n2){
-        if (L[i] < R[j] ){
-            arr2[k] = L[i];
-            i++;
-        }
-        else{
-            arr2[k] = R[j];
-            j++;
-        }
-        k++;
-    }
-
-    while(i<n1){
-        arr2[k++] = L[i++];
-    }
-    while(j<n2){
-        arr2[k++] = R[j++];
-    }
-
-
-}
-int mergeSort(int arr1[],int l,int r,int arr2[]){
-    if (l<r){
-        printf("Hi");
-        int m = l + (r-1) / 2;
-        mergeSort(arr1,l,m,arr2);
-        mergeSort(arr1,m+1,r,arr2);
-        merge(arr1,l,m,r,arr2);
-    }
+void printArray(int A[], int size)  
+{  
+    int i;  
+    for (i = 0; i < size; i++)  
+        printf("%d ", A[i]);  
+    printf("\n");  
 }
 
-void analyze(){
-    int n = 5000;
-    int arr[5000];
-    int arr2[5000];
+void merge(int arr[], int l, int m, int r)  
+{  
+    int i, j, k;  
+    int n1 = m - l + 1;  
+    int n2 = r - m;
+    int L[n1], R[n2];  
+    for (i = 0; i < n1; i++)  
+        L[i] = arr[l + i];  
+    for (j = 0; j < n2; j++)  
+        R[j] = arr[m + 1 + j];  
+    i = 0;
+    j = 0; 
+    k = l; 
+    while (i < n1 && j < n2) {  
+        if (L[i] <= R[j]) {  
+            arr[k] = L[i];  
+            i++;  
+        }  
+        else {  
+            arr[k] = R[j];  
+            j++;  
+        }  
+        k++;  
+    }  
+    while (i < n1) {  
+        arr[k] = L[i];  
+        i++;  
+        k++;  
+    }  
+    while (j < n2) {  
+        arr[k] = R[j];  
+        j++;  
+        k++;  
+    }  
+}  
+  
+void mergeSort(int arr[], int l, int r)  
+{  
+    if (l < r) {  
+        int m = l + (r - l) / 2;  
+        mergeSort(arr, l, m);  
+        mergeSort(arr, m + 1, r);  
+        merge(arr, l, m, r);  
+    }  
+}  
+
+void analyse(int n){
+    int *arr1 = malloc(n*sizeof(int));
     for (int i = 0; i < n; ++i)
-    {   int num = randInt();
-        arr[i] = num;
+    {  
+        arr1[i] = randInt();
     }
-    //Average Case Starts Here
+
     __clock_t t;
     double time_taken; 
     int x,result;
+
     t = clock();
-    time_taken = ((double)t)/CLOCKS_PER_SEC;
-    mergeSort(arr,0,n-1,arr2);
-    printf("Average case %lf",time_taken);
+    mergeSort(arr1,0,n-1);
+    t = clock() - t;
+    time_taken = ((double)t) / CLOCKS_PER_SEC;
+    double count1 = time_taken;
 
+    t = clock();
+    mergeSort(arr1,0,n-1);
+    t = clock() - t;
+    time_taken = ((double)t) / CLOCKS_PER_SEC;
+    double count2 = time_taken;
 
+    rvereseArray(arr1, 0, n-1);
+
+    t = clock();
+    mergeSort(arr1,0,n-1);
+    t = clock() - t;
+    time_taken = ((double)t) / CLOCKS_PER_SEC;
+    double count3 = time_taken;
+
+    printf("%d\t%f %f %f \n", n,count1, count2, count3);
 }
 
-int main(){
-    analyze();
-
-}
+ int main(void)
+  {
+    printf("n\tavg\t best\t   worst\n");
+    for (int i = 5000; i <= 50000; i += 5000)
+    {
+      analyse(i);
+    }
+    return 0;
+  }

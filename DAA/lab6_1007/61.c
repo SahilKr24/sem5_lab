@@ -42,8 +42,7 @@ void Greedy_Knapsack(int M,int n) {
  
 int main() {
     //Max weight
-    int M = 1200;
-
+    int M = 60;
     //Number of items
     int n = 3;
     Greedy_Knapsack(M,n);

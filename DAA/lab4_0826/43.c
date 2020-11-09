@@ -62,40 +62,42 @@ void analyse(int n)
     arr[i] = num;
   }
 
-  int temp, i, j;
+
+  int mx,mn,i;
   clock_t t;
-  double rt, at, dt;
+  double rt, bt;
+
+  t = clock();
+  mx = arr[0];
+  mn = arr[0];
+    for(i=1; i<n; i++)
+    {
+        if(arr[i]>mx)
+        {
+            mx = arr[i];
+        }
+        if(arr[i]<mn)
+        {
+            mn = arr[i];
+        }
+    }
+  t = clock() - t;
+  bt = ((double)t) / CLOCKS_PER_SEC;
 
   t = clock();
   quickSort(arr, 0, n - 1);
   t = clock() - t;
   rt = ((double)t) / CLOCKS_PER_SEC;
 
-  t = clock();
-  quickSort(arr, 0, n - 1);
-  t = clock() - t;
-  at = ((double)t) / CLOCKS_PER_SEC;
 
-  for (i = 0; i < n - 1; i++)
-    for (j = 0; j < n - i - 1; j++)
-      if (arr[j] < arr[j + 1])
-      {
-        temp = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = temp;
-      }
 
-  t = clock();
-  quickSort(arr, 0, n - 1);
-  t = clock() - t;
-  dt = ((double)t) / CLOCKS_PER_SEC;
-  printf("%d\t%5d\t%10f\t%10f\t%10f", n / 5000, n, at, dt, rt);
+  printf("%d\t%5d\t%10f\t%10f", n / 5000, n,rt,bt);
 }
 
 int main()
 {
-   printf("S.No\tVal N\t  Asc Case\t  Desc Case\t Random Data\n\n");
-  for (int i = 5000; i <= 50000; i += 5000)
+   printf("S.No\tVal N\t  Using DnC\t  Using Brute Force\n");
+  for (int i = 500; i <= 5000; i += 500)
   {
     analyse(i);
     printf("\n");

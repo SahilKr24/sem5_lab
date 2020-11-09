@@ -54,4 +54,5 @@ void main()
     }
     printf("\nAfter swapping\n");
     printArray(n, arr);
+    printf("\n");
 }

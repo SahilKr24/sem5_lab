@@ -51,16 +51,16 @@ void diagonalProduct(int n,int arr[][n]){
 }
 
 int main(){
-    printf("Enter order of the array\n");
+    printf("Enter order of the matrix\n");
     int input;
     scanf("%d",&input);
     const int n = input;
     int arr[n][n];
     for (int i = 0; i < n; i++)
     {
+        printf("Enter arr[%d][1-%d]\n",i,n);
         for (int j = 0; j < n; j++)
         {
-           printf("Enter arr[%d][%d]\n",i,j);
            scanf("%d",&arr[i][j]);
         }
         
